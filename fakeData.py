@@ -1,12 +1,12 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 
+def noise(x, sigma, dimension):
+	return np.random.normal(x, sigma, dimension)
+
 def generateSigmoidCurve(dimension):
 
-	def noise(x, sigma, dimension):
-		return np.random.normal(x, sigma, dimension)
-
-	def tan(data, noise, vert_offset, scale):
+	def sqrtFunc(data, noise, vert_offset, scale):
 		return np.multiply(scale, np.sqrt(data)) + noise + vert_offset
 
 	data = []
@@ -15,11 +15,11 @@ def generateSigmoidCurve(dimension):
 		data.append(temp)
 
 
-	noise = noise(20, 5, dimension)
-	#noise = np.zeros(dimension)
+	n = noise(20, 5, dimension)
+	#n = np.zeros(dimension)
 	data = np.array(data)
 
-	transformedData = tan(data, noise, 100, 0.5)
+	transformedData = sqrtFunc(data, n, 100, 0.5)
 
 	# for x in range(dimension[0]):
 	# 	plt.plot(transformedData[x])
@@ -30,8 +30,31 @@ def generateSigmoidCurve(dimension):
 
 def genVelocity(dimension):
 	
+	def velocity(data):
+		return np.add(np.multiply(0.3333333, np.power(data, 1.5)), np.add(100, data))
+
+	data = []
+	for x in range(dimension[0]):
+		temp = np.linspace(0, 1000, dimension[1])
+		data.append(temp)
+
+	n = noise(200, 100, dimension)
+	data = np.array(data)
+	vData = velocity(data)
+	noisyV = np.add(vData, n)
+
+	# for x in range(dimension[0]):
+	# 	plt.plot(noisyV[x])
+
+	# plt.show()
+
+	return vData, noisyV
+
+
+
 
 
 if __name__ == '__main__':
 
-	data = generateSigmoidCurve((3, 1000))
+	accelerations = generateSigmoidCurve((3, 1000))
+	true_velocity, noisy_velocity = genVelocity((3, 1000))
