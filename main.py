@@ -13,7 +13,7 @@ if __name__ == '__main__':
 	P = np.identity(dimension)
 
 	kf = kf.KalmanFilter(A, P, dimension)
-	Q = np.array([[0,0,0],[0,0,0],[0,0,0]])
+	Q = np.zeros((3, 3))
 	### TODO ###
 	i = 0
 	state = []
