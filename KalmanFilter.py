@@ -6,7 +6,7 @@ class KalmanFilter:
 	def __init__(self, A, P, dimension):
 		self.A = A
 		self.P = P
-		self.v_k = 0
+		self.v_k = np.array([0, 0, 0])
 		self.kalmanGain = 0
 		self.R = np.zeros((dimension, dimension))
 		self.H = np.identity(dimension)
@@ -14,7 +14,7 @@ class KalmanFilter:
 
 	def predictState(self, accel, time, Q):
 		self.v_k = np.add(
-			np.dot(self.A, v_k),
+			np.dot(self.A, self.v_k),
 			np.dot(time, accel))
 
 		self.P = np.add(np.dot(
@@ -23,7 +23,7 @@ class KalmanFilter:
 
 	def getKalmanGain(self):
 		first = np.dot(self.P, np.transpose(self.H)) 
-		second = np.linalg.inv(
+		second = np.linalg.pinv(
 			np.add(
 				np.dot(
 				np.dot(self.H, self.P), 
@@ -45,21 +45,10 @@ class KalmanFilter:
 		
 		self.P = np.dot(
 			np.subtract(
-				np.identity(self.dimension), 
+				np.identity(self.dimensions), 
 				np.dot(
 					self.kalmanGain, self.H)),
 			self.P)
 
 
-if __name__ == '__main__':
-	dimension = 3
-	A = np.identity(dimension)
-	P = np.identity(dimension)
 
-	kf = KalmanFilter(A, P, dimension)
-
-	### TODO ###
-	# while(True):
-	# 	kf.predictState(accel, timeDiff, Q)
-	# 	kf.getKalmanGain()
-	# 	kf.update(prediction)	if new velocity data comes in

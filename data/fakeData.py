@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def noise(x, sigma, dimension):
 	return np.random.normal(x, sigma, dimension)
 
-def generateSigmoidCurve(dimension):
+def generateCurve(dimension):
 
 	def sqrtFunc(data, noise, vert_offset, scale):
 		return np.multiply(scale, np.sqrt(data)) + noise + vert_offset
@@ -51,10 +51,4 @@ def genVelocity(dimension):
 	return vData, noisyV
 
 
-
-
-
-if __name__ == '__main__':
-
-	accelerations = generateSigmoidCurve((3, 1000))
-	true_velocity, noisy_velocity = genVelocity((3, 1000))
+	
