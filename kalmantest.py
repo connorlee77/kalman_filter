@@ -115,9 +115,9 @@ noisy_velocity = measuredState
 dimension = 1
 A = np.identity(dimension)
 P = np.identity(dimension)
-R = np.zeros(dimension)
+R = np.array([0.1])
 H = np.identity(dimension)
-Q = np.zeros(dimension)
+Q = np.array([0.00001])
 x_k = np.zeros(dimension) #initial guess
 
 kf = KalmanFilter(A, P, Q, R, H, x_k, dimension)
