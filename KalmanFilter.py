@@ -3,23 +3,25 @@ import matplotlib.pyplot as plt
 
 class KalmanFilter:
 
-	def __init__(self, A, P, dimension):
+	def __init__(self, A, P, R, Q, dimension):
 		self.A = A
-		self.P = P
+		self.P = P 
 		self.v_k = np.array([0, 0, 0])
 		self.kalmanGain = 0
-		self.R = np.zeros((dimension, dimension))
+		self.R = R #constant
+		self.Q = Q #constant
 		self.H = np.identity(dimension)
 		self.dimensions = dimension
 
-	def predictState(self, accel, time, Q):
+	def predictState(self, accel, time):
+
 		self.v_k = np.add(
 			np.dot(self.A, self.v_k),
 			np.dot(time, accel))
 
 		self.P = np.add(np.dot(
 			np.dot(self.A, self.P),
-			np.transpose(self.A)), Q)		
+			np.transpose(self.A)), self.Q)		
 
 	def getKalmanGain(self):
 		first = np.dot(self.P, np.transpose(self.H)) 
@@ -47,7 +49,8 @@ class KalmanFilter:
 			np.subtract(
 				np.identity(self.dimensions), 
 				np.dot(
-					self.kalmanGain, self.H)),
+					self.kalmanGain, 
+					self.H)),
 			self.P)
 
 
