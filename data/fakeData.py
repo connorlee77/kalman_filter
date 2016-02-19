@@ -15,16 +15,11 @@ def generateCurve(dimension):
 		data.append(temp)
 
 
-	n = noise(0, 10, dimension)
+	n = noise(0, 20, dimension)
 	#n = np.zeros(dimension)
 	data = np.array(data)
 
 	transformedData = sqrtFunc(data, n, 0, 1)
-
-	# for x in range(dimension[0]):
-	# 	plt.plot(transformedData[x])
-
-	# plt.show()
 
 	return transformedData
 
@@ -38,15 +33,10 @@ def genVelocity(dimension):
 		temp = np.linspace(0, dimension[1], dimension[1])
 		data.append(temp)
 
-	n = noise(0, 10, dimension)
+	n = noise(0, 20, dimension)
 	data = np.array(data)
 	vData = velocity(data)
 	noisyV = np.add(vData, n)
-
-	# for x in range(dimension[0]):
-	# 	plt.plot(noisyV[x])
-
-	# plt.show()
 
 	return vData, noisyV
 

@@ -25,7 +25,7 @@ class KalmanFilter:
 
 	def getKalmanGain(self):
 		first = np.dot(self.P, np.transpose(self.H)) 
-		second = np.linalg.pinv(
+		second = np.linalg.inv(
 			np.add(
 				np.dot(
 				np.dot(self.H, self.P), 
@@ -35,15 +35,17 @@ class KalmanFilter:
 		self.kalmanGain = np.dot(first, second)
 
 	def update(self, z_k):
+		residual = np.subtract(
+					z_k, 
+					np.dot(
+						self.H,
+						self.v_k))
+
 		self.v_k = np.add(
 			self.v_k, 
 			np.dot(
 				self.kalmanGain,
-				np.subtract(
-					z_k, 
-					np.dot(
-						self.H,
-						self.v_k))))
+				residual))
 		
 		self.P = np.dot(
 			np.subtract(
