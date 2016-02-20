@@ -14,10 +14,12 @@ if __name__ == '__main__':
 	P = np.identity(dimension)
 	Q = np.identity(dimension)
 	R = np.identity(dimension)
+	H = np.identity(dimension)
 
+	Q = np.dot(1,Q)
 	R = np.dot(0.1, R)
 
-	kf = kf.KalmanFilter(A, P, R, Q, dimension)
+	kf = kf.KalmanFilter(A, P, R, Q, H, dimension)
 
 	i = 0
 	state = []
@@ -26,7 +28,7 @@ if __name__ == '__main__':
 		kf.getKalmanGain()
 		kf.update(noisy_velocity[:,i])
 		i += 1
-		state.append(kf.v_k)
+		state.append(kf.x_k)
 
 	state = np.transpose(np.array(state))
 
