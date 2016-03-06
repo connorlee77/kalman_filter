@@ -6,7 +6,7 @@ class KalmanFilter:
 	def __init__(self, A, P, R, Q, H, B, dimension):
 		self.A = A
 		self.P = P 
-		self.x_k = np.array([0, 0, 0])
+		self.x_k = 0
 		self.kalmanGain = 0
 		self.R = R #constant
 		self.Q = Q #constant
