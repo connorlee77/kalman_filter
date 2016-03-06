@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 class KalmanFilter:
 
-	def __init__(self, A, P, R, Q, H, dimension):
+	def __init__(self, A, P, R, Q, H, B, dimension):
 		self.A = A
 		self.P = P 
 		self.x_k = np.array([0, 0, 0])
@@ -11,13 +11,14 @@ class KalmanFilter:
 		self.R = R #constant
 		self.Q = Q #constant
 		self.H = H
+		self.B = B
 		self.dimensions = dimension
 
-	def predictState(self, u_k, B):
+	def predictState(self, u_k):
 
 		self.x_k = np.add(
 			np.dot(self.A, self.x_k),
-			np.dot(B, u_k))
+			np.dot(self.B, u_k))
 
 		self.P = np.add(np.dot(
 			np.dot(self.A, self.P),
